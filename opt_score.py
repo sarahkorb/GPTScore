@@ -51,7 +51,7 @@ class OPTScorer:
             if i <1:
                 print('text: ', text)
                 print('tgt: ', tgt)
-            input_ids = self.tokenizer.encode(text)
+            input_ids = self.tokenizer.encode(text)[:self.max_length]
             tgt_ids = self.tokenizer.encode(tgt)[1:]
             output_ids = [-100] * len(input_ids)
             output_ids[len(input_ids) - len(tgt_ids):] = tgt_ids
