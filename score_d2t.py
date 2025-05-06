@@ -18,15 +18,15 @@ class Scorer:
         self.demos, self.asp_dfs = read_demos(self.args.demo_path)
 
         # Evaluate a small dataset first..
-        print('Since GPT3-based models are expensive, we can test them on a small number of samples first.')
-        print('The default number of test samples is 2.')
-        import random
-        random.seed(2)
-        N = 2
-        idxs = random.sample(range(0, len(self.data) - 1), N)
-        new_data = {idx: self.data[idx] for idx in idxs}
-        self.data = new_data
-        print('the num of evaluation samples: ', len(self.data))
+        # print('Since GPT3-based models are expensive, we can test them on a small number of samples first.')
+        # print('The default number of test samples is 2.')
+        # import random
+        # random.seed(2)
+        # N = 2
+        # idxs = random.sample(range(0, len(self.data) - 1), N)
+        # new_data = {idx: self.data[idx] for idx in idxs}
+        # self.data = new_data
+        # print('the num of evaluation samples: ', len(self.data))
 
     def save_data(self, path):
         save_pickle(self.data, path)
