@@ -52,9 +52,23 @@ class OPTScorer:
                 print('text: ', text)
                 print('tgt: ', tgt)
             input_ids = self.tokenizer.encode(text)[:self.max_length]
-            tgt_ids = self.tokenizer.encode(tgt)[1:]
-            output_ids = [-100] * len(input_ids)
-            output_ids[len(input_ids) - len(tgt_ids):] = tgt_ids
+
+            tgt_ids = self.tokenizer.encode(tgt)
+            input_ids = self.tokenizer.encode(text)
+            # Truncate if necessary
+            if len(input_ids) > self.max_length:
+                input_ids = input_ids[:self.max_length]
+            if len(tgt_ids) > self.max_length:
+                tgt_ids = tgt_ids[:self.max_length]
+            
+            # Ensure target length doesn't exceed input length
+            tgt_ids = tgt_ids[-len(input_ids):]
+            
+            # Prepare labels (same length as input_ids)
+            output_ids = [-100] * (len(input_ids) - len(tgt_ids)) + tgt_ids
+            # tgt_ids = self.tokenizer.encode(tgt)[1:]
+            # output_ids = [-100] * len(input_ids)
+            # output_ids[len(input_ids) - len(tgt_ids):] = tgt_ids
             input_ids = torch.LongTensor(input_ids).unsqueeze(0).to(self.device)
             output_ids = torch.LongTensor(output_ids).unsqueeze(0).to(self.device)
             try:
